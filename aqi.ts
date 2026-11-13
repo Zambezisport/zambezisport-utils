@@ -65,12 +65,12 @@ export function aqiCategory(aqi: number): AqiCategory {
 }
 
 const EXERCISE_GUIDANCE: Record<AqiCategory, string> = {
-  good: "Train outdoors normally.",
-  moderate: "Unusually sensitive individuals consider lighter sessions.",
-  "unhealthy-sensitive": "Sensitive groups (asthma, juniors) move indoors; others reduce intensity.",
-  unhealthy: "Move training indoors or reschedule; avoid prolonged exertion outdoors.",
-  "very-unhealthy": "No outdoor training. Indoor facilities with filtered air only.",
-  hazardous: "No outdoor activity. Event cancellation advised.",
+  good: "Stage runs normally.",
+  moderate: "Sensitive crew/riders watch for irritation; standard filter service intervals.",
+  "unhealthy-sensitive": "Dust-sensitive riders use filtered breathing under helmet; check engine intake filters mid-stage.",
+  unhealthy: "Heavy dust — shorten stage or delay; engine filter service mandatory; riders with respiratory issues withdrawn.",
+  "very-unhealthy": "Dust-storm conditions — suspend the stage; visibility and engine-ingestion risk beyond acceptable.",
+  hazardous: "Cancel the stage. Unsafe air for riders and engines alike.",
 };
 
 export interface AqiResult {

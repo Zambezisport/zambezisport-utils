@@ -32,19 +32,19 @@ const BANDS: Array<{ max: number; band: UvBand; burnMinutes: number; protection:
     max: 7,
     band: "high",
     burnMinutes: 25,
-    protection: "SPF 30+, hat, long sleeves; shade 10:00–16:00. Reapply sunscreen hourly when sweating.",
+    protection: "SPF 50+ on exposed skin (neck, wrists); goggles down in open sections; shade service areas 10:00–16:00.",
   },
   {
     max: 10,
     band: "very-high",
     burnMinutes: 15,
-    protection: "Minimise midday exposure; full cover + SPF 50+. Schedule training early/late.",
+    protection: "Typical open-desert load — full gear coverage assumed; SPF 50+ at fuel stops; schedule liaison sections early/late.",
   },
   {
     max: Infinity,
     band: "extreme",
     burnMinutes: 10,
-    protection: "Avoid outdoor exposure 10:00–16:00 entirely where possible.",
+    protection: "No exposed skin at any service stop; crew under shade at all times; brief riders on reflective-sand exposure.",
   },
 ];
 

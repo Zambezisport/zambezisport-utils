@@ -64,9 +64,10 @@ export function planHydration(input: HydrationInput): HydrationPlan {
   const preloadMl = Math.min(700, Math.round(massKg * 6));
 
   const notes: string[] = [];
-  if (sweatLph > 1.0) notes.push("Sweat rate exceeds intake capacity — plan cooling breaks, not just fluids.");
-  if (tempC >= 30) notes.push("Chill fluids where possible — improves intake and core cooling.");
-  if (hours >= 1.5) notes.push("Include carbohydrate-electrolyte mix after the first hour.");
+  if (sweatLph > 1.0) notes.push("Sweat rate exceeds intake capacity — plan cooling stops, not just fluids.");
+  if (tempC >= 30) notes.push("Sealed cockpits run ~10–15 °C above ambient — plan to cabin temperature, not forecast.");
+  if (hours >= 1.5) notes.push("Carbohydrate-electrolyte mix after the first hour; refill drink systems at every service point.");
+  notes.push("Riders: hands-free drink hose mandatory — nobody sips mid-dune.");
 
   return {
     sweatL: Math.round(sweatL * 100) / 100,

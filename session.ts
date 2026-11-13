@@ -1,8 +1,8 @@
 /**
- * session.ts — composite outdoor-session advisory.
+ * session.ts — composite stage advisory for desert motorsport.
  *
- * Combines heat (WBGT), air quality (AQI), and UV into a single
- * go / caution / modify / cancel verdict with reasons.
+ * Combines heat (WBGT, gear-adjusted), air quality (AQI / dust) and UV into a
+ * single run / caution / shorten / cancel verdict with reasons.
  * The worst sub-score wins — conditions are only as good as the
  * weakest factor.
  */
@@ -14,8 +14,9 @@ import { assessUv, uvWindowAdvice } from "./uv";
 export type Verdict = "go" | "caution" | "modify" | "cancel";
 
 export interface SessionInput extends WbgtInput {
-  /** Session start, local hour 0–23. */
+  /** Stage start, local hour 0–23. */
   startHourLocal: number;
+  /** Stage duration — use expected elapsed time, not distance. */
   durationMin: number;
   pm25?: number;
   pm10?: number;
@@ -90,7 +91,7 @@ export function sessionAdvisory(input: SessionInput): SessionAdvisory {
     const windowNote = uvWindowAdvice(input.uvIndex, input.startHourLocal, input.durationMin);
     if (uv.band === "very-high" || uv.band === "extreme") {
       verdicts.push("caution");
-      reasons.push(`UV index ${input.uvIndex} — ${uv.band}`);
+      reasons.push(`UV index ${input.uvIndex} — ${uv.band} (typical open-desert load)`);
     }
     if (windowNote) tips.push(windowNote);
     tips.push(uv.protection);

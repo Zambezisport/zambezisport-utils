@@ -19,6 +19,11 @@ export interface WbgtInput {
   inSun?: boolean;
   /** Wind speed, m/s — cooling reduces effective load. Default 1. */
   windMps?: number;
+  /**
+   * Full racing gear or sealed cockpit: limits evaporative cooling and traps
+   * metabolic heat. Effective strain is ~2 °C WBGT above ambient conditions.
+   */
+  heavyGear?: boolean;
 }
 
 export type WbgtBand = "low" | "moderate" | "high" | "very-high" | "extreme";
@@ -39,21 +44,22 @@ export function saturationVapourPressureHpa(tempC: number): number {
  * Shade: 0.567·Ta + 0.393·e + 3.94 (ABM approximation).
  * Sun:   add a solar load term approximating the globe's radiative gain.
  */
-export function wbgtApprox({ tempC, rhPct, inSun = true, windMps = 1 }: WbgtInput): number {
+export function wbgtApprox({ tempC, rhPct, inSun = true, windMps = 1, heavyGear = false }: WbgtInput): number {
   const e = (rhPct / 100) * saturationVapourPressureHpa(tempC);
   let wbgt = 0.567 * tempC + 0.393 * e + 3.94;
   if (inSun) wbgt += 3.0; // radiative load, calm-to-light air
   // Wind cooling: each m/s above 3 knocks back the solar term a little.
   if (windMps > 3) wbgt -= Math.min(2.0, (windMps - 3) * 0.5);
+  if (heavyGear) wbgt += 2.0; // gear/cockpit blocks evaporative + convective loss
   return Math.round(wbgt * 10) / 10;
 }
 
 const GUIDANCE: Record<WbgtBand, string> = {
-  low: "Normal activity. Standard hydration plan.",
-  moderate: "Caution. Extend warm-up gradually; fluids available; watch at-risk individuals.",
-  high: "Modify. Shorten session, add rest breaks in shade, schedule outside peak heat.",
-  "very-high": "High risk. Move indoors or reschedule; if it must run, max 1h with enforced cooling breaks.",
-  extreme: "Cancel or postpone. Risk of exertional heat illness even in fit athletes.",
+  low: "Normal running. Standard drink-system plan per stint.",
+  moderate: "Caution. Cooling vests recommended; fluids at every service point; watch riders flagged for heat issues.",
+  high: "Shorten stints. Enforced shaded stops between sections; pre-cool drivers before the stage.",
+  "very-high": "High risk. Split the stage or delay to cooler hours; if it must run, cap stints at 1h with enforced cooling stops.",
+  extreme: "Cancel or postpone the stage. Risk of exertional heat illness even in fit, acclimatised drivers.",
 };
 
 /** ACSM-style risk bands for continuous outdoor activity. */
